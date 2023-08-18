@@ -1,0 +1,82 @@
+Table users {
+  id int [pk]
+  name varchar
+  email varchar
+  dob date
+  active bool
+  license_expiry date
+  license_number varchar
+  license_state varchar
+  license_type varchar
+}
+
+Table companies {
+  id int [pk]
+  name varchar
+  abn varchar
+  address varchar
+}
+
+Table vehicles {
+  id int [pk]
+  registration varchar
+  vin varchar
+  build_year int
+  fleet_number varchar
+  registration_expiry date
+  active bool
+  company_id int [ref: > companies.id]
+}
+
+Table customers {
+  id int [pk]
+  name varchar
+  abn varchar
+  email varchar
+  address varchar
+}
+
+Table jobs {
+  id int [pk]
+  delivery_type varchar
+  driver_id int [ref: > users.id]
+  company_id int [ref: > companies.id]
+  customer_id int [ref: > customers.id]
+  truck_id int [ref: - vehicles.id]
+  delivery_date date
+  customer_amount decimal
+  driver_amount decimal
+  pickup_city varchar
+  dropoff_city varchar
+  status varchar
+}
+
+Table job_trailers {
+  job_id int [ref: > jobs.id]
+  trailer_id int [ref: > vehicles.id]
+}
+
+Table user_companies {
+  user_id int [ref: > users.id]
+  company_id int [ref: > companies.id]
+}
+
+Table customer_companies {
+  customer_id int [ref: > customers.id]
+  company_id int [ref: > companies.id]
+}
+
+Table company_admins {
+  company_id int [ref: > companies.id]
+  admin_id int [ref: > users.id]
+}
+
+Table company_schedulers {
+  company_id int [ref: > companies.id]
+  scheduler_id int [ref: > users.id]
+}
+
+Table company_drivers {
+  company_id int [ref: > companies.id]
+  driver_id int [ref: > users.id]
+}
