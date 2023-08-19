@@ -10,7 +10,6 @@ router.get("/", (req, res) => {
   });
 });
 
-// Route to get user by id
 router.get("/:id", (req, res) => {
   const userId = parseInt(req.params.id, 10);
   userController.getUserById(userId, (err, user) => {
@@ -21,7 +20,6 @@ router.get("/:id", (req, res) => {
   });
 });
 
-// Route to get users by company name
 router.get("/company/:companyName", (req, res) => {
   const companyName = req.params.companyName;
   userController.getUserByCompany(companyName, (err, users) => {
@@ -55,7 +53,7 @@ router.post("/", (req, res) => {
       if (error) {
         return res.status(500).json({ error: error.message });
       }
-      res.status(201).json(result); // 201 indicates resource creation
+      res.status(201).json(result);
     }
   );
 });
@@ -67,7 +65,7 @@ router.post("/company", (req, res) => {
     if (error) {
       return res.status(500).json({ error: error.message });
     }
-    res.status(201).json(result); // 201 indicates resource creation
+    res.status(201).json(result);
   });
 });
 

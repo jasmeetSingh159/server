@@ -21,4 +21,12 @@ router.get("/:id", (req, res) => {
   });
 });
 
+router.post("/", (req, res) => {
+  const { name, abn, address } = req.body;
+  companyController.createCompany(name, abn, address, (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(201).json(result);
+  });
+});
+
 module.exports = router;

@@ -60,7 +60,7 @@ const createUser = (
         return;
       }
       const userId = res.rows[0].id;
-      callback(null, userId); // Successful user creation
+      callback(null, userId);
     }
   );
 };
@@ -110,13 +110,11 @@ const joinUserToCompany = async (userId, companyName, roles, callback) => {
 };
 
 const deleteUser = (userId, callback) => {
-  // Define the list of tables and columns to delete the user from.
-  // The user should be removed from these tables first due to foreign key constraints.
   const tablesToDeleteFrom = [
     { table: "user_companies", column: "user_id" },
     { table: "company_schedulers", column: "scheduler_id" },
     { table: "company_admins", column: "admin_id" },
-    { table: "company_drivers", column: "driver_id" }, // Assuming the column for user ID in this table is 'driver_id'
+    { table: "company_drivers", column: "driver_id" },
   ];
 
   let completedQueries = 0;
@@ -135,8 +133,6 @@ const deleteUser = (userId, callback) => {
       completedQueries += 1;
 
       if (completedQueries === tablesToDeleteFrom.length) {
-        // Now that we've removed the user's associations in related tables,
-        // we can safely delete the user from the main 'users' table.
         const deleteUserQuery = `
                     DELETE FROM users WHERE id = $1;
                 `;
@@ -155,7 +151,6 @@ const deleteUser = (userId, callback) => {
 };
 
 const removeUserFromCompany = (userId, companyName, callback) => {
-  // First, we need to get the company's ID based on its name.
   const selectCompanyQuery = `
         SELECT id FROM companies WHERE name = $1;
     `;
@@ -173,12 +168,11 @@ const removeUserFromCompany = (userId, companyName, callback) => {
       return;
     }
 
-    // Now that we have the company ID, we will create a series of queries to delete the user from the related tables.
     const deleteUserFromTables = [
       { table: "user_companies", column: "user_id" },
       { table: "company_schedulers", column: "scheduler_id" },
       { table: "company_admins", column: "admin_id" },
-      { table: "company_drivers", column: "driver_id" }, // Assuming the column for user ID in this table is 'driver_id'
+      { table: "company_drivers", column: "driver_id" },
     ];
 
     let completedQueries = 0;
