@@ -4,6 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 
 const users = require("./routes/users");
+const companies = require("./routes/companies");
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", users);
+app.use("/companies", companies);
 
 app.listen(port, () => {
   console.log(`App running on port ${port}`);

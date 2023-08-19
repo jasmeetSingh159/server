@@ -1,4 +1,3 @@
-const res = require("express/lib/response");
 const pool = require("../utils/db");
 
 const getAllUsers = (callback) => {
